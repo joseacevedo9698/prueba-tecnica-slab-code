@@ -52,6 +52,18 @@ export class emailVerify {
     }
 }
 
+export class updatePassword {
+
+    @IsNotEmpty()
+    @IsString()
+    password: string
+
+
+    constructor(password: string) {
+        this.password = password;
+    }
+}
+
 export class CreateUserStructure {
 
     @IsNotEmpty()

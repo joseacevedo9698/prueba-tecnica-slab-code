@@ -1,7 +1,7 @@
 import express from 'express';
 import { hashSync, compareSync } from 'bcrypt';
 import { validate } from "class-validator";
-import { CreateUser, CreateUserStructure, IUser, UpdateUser, UserModel } from '../Models';
+import { CreateUser, CreateUserStructure, IUser, updatePassword, UserModel } from '../Models';
 import { sendNewUserEmail } from '../Services';
 import { authMiddleware, isAdmin } from '../Middlewares';
 
@@ -45,24 +45,25 @@ router.post('/create_user', [authMiddleware, isAdmin], async function (req: expr
     });
 });
 
-router.post('/update_password', async function (req, res) {
+router.post('/update_password', [authMiddleware], async function (req: express.Request, res: express.Response) {
     const userId = req.headers.user_id;
     const password = req.body.password;
     const new_password = req.body.new_password;
 
     let user: IUser | null = await UserModel.findById(userId);
-    console.log(user);
-    
+
     if (user) {
         if (compareSync(password, user.password)) {
             if (password !== new_password) {
-                let data = new UpdateUser({ ...new_password });
+                let data = new updatePassword(new_password);
+                console.log(data);
+
                 validate(data, { skipMissingProperties: true }).then((errors) => {
                     if (errors.length <= 0) {
                         if (user) {
-                            user.password = data.password ? data.password : user.password;
+                            user.password = data.password ? hashSync(data.password, hashSalt) : user.password;
                             user.save();
-                            res.send({ status: true, });
+                            res.send({ status: true });
                         }
                     } else {
                         res.status(401).send({ status: false, error: errors });
@@ -78,17 +79,18 @@ router.post('/update_password', async function (req, res) {
                     message: "Incorrect credentials"
                 })
             }
+        } else {
+            res.status(401).json({
+                error: "INCORRECT_PASSWORD",
+                message: "Incorrect credentials"
+            })
         }
-        res.status(401).json({
-            error: "INCORRECT_PASSWORD",
-            message: "Incorrect credentials"
+    } else {
+        res.status(500).json({
+            error: "SYSTEM_ERROR",
+            message: "system error"
         })
-
-    };
-    res.status(500).json({
-        error: "SYSTEM_ERROR",
-        message: "system error"
-    })
+    }
 });
 
 let userRouter = router;

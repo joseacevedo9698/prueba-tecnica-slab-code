@@ -1,7 +1,6 @@
 import mongoose from '../../Server/database';
 import {IUser} from '../Interfaces';
 let Schema = mongoose.Schema;
-let ObjectId = Schema.Types.ObjectId;
 export const UserSchema = new mongoose.Schema<IUser>({
     username:{
         type: 'string',
