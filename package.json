@@ -1,0 +1,42 @@
+{
+  "name": "slab-code-prueba",
+  "version": "1.0.0",
+  "description": "prueba tecnica para vacante de desarrollador backend en Slab Code",
+  "main": "dist/index.js",
+  "scripts": {
+    "start": "tsc && node dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joseacevedo9698/prueba-tecnica-slab-code.git"
+  },
+  "author": "Jose David Acevedo",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "bcrypt": "^5.0.0",
+    "class-validator": "^0.12.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.29",
+    "typescript": "^3.9.7",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/axios": "^0.14.0",
+    "@types/express": "^4.17.7",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/mongoose": "^5.7.36",
+    "@types/bcrypt": "^3.0.0",
+    "@types/dotenv": "^8.2.0",
+    "@types/morgan": "^1.9.1",
+    "ts-node": "^8.10.2",
+    "nodemon": "^2.0.6"
+  },
+  "bugs": {
+    "url": "https://github.com/joseacevedo9698/prueba-tecnica-slab-code/issues"
+  },
+  "homepage": "https://github.com/joseacevedo9698/prueba-tecnica-slab-code#readme"
+}
