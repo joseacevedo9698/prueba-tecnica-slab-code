@@ -2,6 +2,8 @@ import express  from 'express';
 import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
 import morgan from 'morgan';
+import { authRouter, userRouter } from '../Router';
+import { authMiddleware, isAdmin } from '../Middlewares';
 // import {} from '../Routers';
 // import {} from '../Middlewares';
 
@@ -32,11 +34,13 @@ export default class Server {
     }
 
     middlewares(){
-        this.app.use(morgan('start'));
+        this.app.use(morgan('dev'));
+
     }
 
     Routes(){
-
+        this.app.use('/user', userRouter);
+        this.app.use('/', authRouter);
     }
 
     ConfigHeaders(){
