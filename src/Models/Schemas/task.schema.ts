@@ -17,7 +17,7 @@ export const TaskSchema = new mongoose.Schema<ITask>({
 
     description:{
         type: String,
-        required: [true, "DESCRIPTION_IS_REQUIRED" ],
+        required: [false, "DESCRIPTION_IS_REQUIRED" ],
     },
 
     date_init:{
