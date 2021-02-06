@@ -4,6 +4,7 @@ import * as bodyParser from 'body-parser';
 import morgan from 'morgan';
 import { authRouter, userRouter,projectRouter } from '../Router';
 import { authMiddleware, isAdmin } from '../Middlewares';
+import { taskRouter } from '../Router/task';
 // import {} from '../Routers';
 // import {} from '../Middlewares';
 
@@ -41,6 +42,8 @@ export default class Server {
     Routes(){
         this.app.use('/user', userRouter);
         this.app.use('/project', projectRouter);
+        this.app.use('/task', taskRouter);
+
 
         this.app.use('/', authRouter);
     }

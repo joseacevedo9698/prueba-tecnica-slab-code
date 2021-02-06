@@ -38,6 +38,11 @@ router.post('/', [authMiddleware] ,async function (req: express.Request, res: ex
 
 });
 
+
+router.patch('/', [authMiddleware] ,async function (req: express.Request, res: express.Response) {
+    
+});
+
 let projectRouter = router;
 
 export { projectRouter };

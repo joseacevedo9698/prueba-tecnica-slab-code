@@ -26,25 +26,25 @@ let authMiddleware = async function (req: any, res: any, next: any) {
                     req.headers.user_id = userId;
                     next();
                 }else{
-                    res.status(400).json({ message: "DISABLED_USER" });
+                    res.status(401).json({ error: "DISABLED_USER" });
                 }
 
 
             } else {
                 res
-                    .status(400)
-                    .json({ message: "USER_NOT_FOUND" });
+                    .status(401)
+                    .json({ error: "USER_NOT_FOUND" });
             }
 
         } catch (error) {
             res
-                .status(400)
-                .json({ message: error });
+                .status(401)
+                .json({ error: error });
         }
 
 
     } else {
-        res.status(400).json({ message: 'TOKEN_NOT_SENT' });
+        res.status(400).json({ error: 'TOKEN_NOT_SENT' });
     }
 }
 
@@ -54,7 +54,7 @@ const isAdmin = async function (req: express.Request, res: express.Response, nex
     if (user?.is_admin) {
         next();
     } else {
-        res.status(400).json({ mensaje: 'PERMISSION_DENIED' });
+        res.status(403).json({ error: 'PERMISSION_DENIED' });
     }
 
 }
