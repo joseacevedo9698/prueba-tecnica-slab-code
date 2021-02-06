@@ -49,12 +49,12 @@ export default class Server {
         this.app.use('/user', userRouter);
         this.app.use('/project', projectRouter);
         this.app.use('/task', taskRouter);
+        this.app.use('/', authRouter);
         this.app.all('*', function(req, res){
             res.status(404).json({message: "Not Found!"});
         });
 
 
-        this.app.use('/', authRouter);
     }
 
     ConfigHeaders() {
