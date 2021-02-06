@@ -46,6 +46,7 @@ router.post('/auth', async function (req, res) {
 })
 
 
+
 let authRouter = router;
 
 export { authRouter };

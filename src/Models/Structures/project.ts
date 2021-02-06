@@ -1,4 +1,4 @@
-import {IsNotEmpty, IsString, IsISO8601} from 'class-validator';
+import {IsNotEmpty, IsString, IsISO8601, IsOptional} from 'class-validator';
 import { IProject , IEditProject} from '../Interfaces';
 export class ProjectStructure {
     @IsNotEmpty()
@@ -27,12 +27,16 @@ export class ProjectStructure {
 }
 
 export class EditProjectStructure {
+    
+    @IsOptional()
     @IsString()
     name: string
 
+    @IsOptional()
     @IsString()
     description: string
 
+    @IsOptional()
     @IsISO8601()
     date_end: string
 

@@ -4,6 +4,7 @@ import { validate } from "class-validator";
 import { CreateUser, CreateUserStructure, IUser, updatePassword, UserModel } from '../Models';
 import { sendNewUserEmail } from '../Services';
 import { authMiddleware, isAdmin } from '../Middlewares';
+import mongoose from '../Server/database';
 
 let router = express.Router();
 
@@ -90,6 +91,36 @@ router.post('/update_password', [authMiddleware], async function (req: express.R
             error: "SYSTEM_ERROR",
             message: "system error"
         })
+    }
+});
+
+router.post('/change_status_operator/:user_id', [authMiddleware, isAdmin], async function (req: express.Request, res: express.Response) {
+    const user_id = req.params.user_id;
+    if (!mongoose.isValidObjectId(user_id)) {
+        res.status(400).json({ error: "INCORRECT_OBJECT_ID" });
+    } else {
+        let user: IUser | null = await UserModel.findById(user_id);
+        if (user) {
+            if (!user.is_admin) {
+                user.status = !user.status;
+                user.save().then(() => {
+                    res.status(200).json({
+                        update: true,
+                        user
+                    })
+                }).catch((err) => {
+                    console.log(err);
+                    res.status(500).json({
+                        update: false
+                    })
+                });
+            } else {
+                res.status(400).json({ errors: "USER_IS_ADMIN" });
+
+            }
+        } else {
+            res.status(404).json({ errors: "USER_NOT_FOUND" });
+        }
     }
 });
 
